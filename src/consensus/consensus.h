@@ -17,7 +17,7 @@ static const unsigned int MAX_BLOCK_WEIGHT = 144000000;
 /** The maximum allowed number of signature check operations in a block (network rule) */
 static const int64_t MAX_BLOCK_SIGOPS_COST = 2880000;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-static const int COINBASE_MATURITY = 100;
+static const int COINBASE_MATURITY = 200;
 
 /** Minimum number of edge bits for cuckoo miner - block.nEdgeBits value */
 static const uint16_t MIN_EDGE_BITS = 16;

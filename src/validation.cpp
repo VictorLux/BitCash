@@ -6,7 +6,7 @@
 #include <validation.h>
 
 #include <arith_uint256.h>
-#include <boost/algorithm/string/case_conv.hpp> 
+#include <boost/algorithm/string/case_conv.hpp>
 #include <chain.h>
 #include <chainparams.h>
 #include <checkpoints.h>
@@ -248,7 +248,7 @@ std::atomic_bool g_is_mempool_loaded{false};
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const std::string strMessageMagic = "Bitcash Signed Message:\n";
+const std::string strMessageMagic = "ZiCE Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -538,9 +538,9 @@ static bool CheckInputsFromMempoolAndCache(const CTransaction& tx, CValidationSt
     assert(!tx.IsCoinBase());
     for (const CTxIn& txin : tx.vin) {
         if (txin.isnickname) {
-            if (txin.nickname.size()<3) 
+            if (txin.nickname.size()<3)
                 return state.Invalid(false, REJECT_INVALID, "The nickname is too short.");
-            if (txin.nickname.size()>20) 
+            if (txin.nickname.size()>20)
                 return state.Invalid(false, REJECT_INVALID, "The nickname is too long.");
 
             bool validcharacters=true;
@@ -664,7 +664,7 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
 
                 for (const CTxIn &mtxin : mtx.vin)
                 {
-                    if (mtxin.isnickname){                        
+                    if (mtxin.isnickname){
                         std::string nick2=boost::to_upper_copy(mtxin.nickname);
                         if (nick1.compare(nick2)==0) {
                             LogPrintf("There is already a transaction with this nickname in the mempool.\n");
@@ -734,7 +734,7 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
             if (!pcoinsTip->HaveCoinInCache(txin.prevout)) {
                 coins_to_uncache.push_back(txin.prevout);
             }
-            if (!txin.isnickname && !view.HaveCoin(txin.prevout)) {        
+            if (!txin.isnickname && !view.HaveCoin(txin.prevout)) {
                 // Are inputs missing because we already have the tx?
                 for (size_t out = 0; out < tx.vout.size(); out++) {
                     // Optimistically just do efficient check of cache for outputs
@@ -1257,11 +1257,11 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 19350 * MILLICOIN;
+    CAmount nSubsidy = 9675 * MILLICOIN;
     // Subsidy is cut in half every 2.100.000 blocks which will occur approximately every 4 years.
     if (nHeight==1)
     {
-        nSubsidy = 9700019350 * MILLICOIN; //9.7 millin coins premine
+        nSubsidy = 10000000000 * MILLICOIN; //9.7 millin coins premine
     } else
     {
         nSubsidy >>= halvings;
@@ -1276,7 +1276,7 @@ CAmount GetBlockSubsidyDevs(int nHeight, const Consensus::Params& consensusParam
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 2150 * MILLICOIN;
+    CAmount nSubsidy = 1075 * MILLICOIN;
     // Subsidy is cut in half every 2.100.000 blocks which will occur approximately every 4 years.
     nSubsidy >>= halvings;
 
@@ -1762,11 +1762,11 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
         for (unsigned int i = 0; i < block.vtx.size(); i++)
         {
             const CTransaction &tx = *(block.vtx[i]);
-            for (unsigned int j = 0; j < tx.vin.size(); j++) 
+            for (unsigned int j = 0; j < tx.vin.size(); j++)
             {
-                if (tx.vin[j].isnickname) 
+                if (tx.vin[j].isnickname)
                 {
-                    DeleteNickname(tx.vin[j].nickname,tx.vin[j].address); 
+                    DeleteNickname(tx.vin[j].nickname,tx.vin[j].address);
                 }
             }
         }
@@ -2149,11 +2149,11 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
             paysdev1=false;
 
             CAmount blockrewarddevs=GetBlockSubsidyDevs(pindex->nHeight, chainparams.GetConsensus());
-            for (unsigned int j = 0; j < tx.vout.size(); j++) 
+            for (unsigned int j = 0; j < tx.vout.size(); j++)
             {
                 if (tx.vout[j].scriptPubKey == GetScriptForRawPubKey(CPubKey(ParseHex(Dev1scriptPubKey))) && tx.vout[j].nValue == blockrewarddevs) {paysdev1=true;break;}
             }
-            if (!paysdev1) 
+            if (!paysdev1)
             {
                 return state.DoS(100,
                              error("ConnectBlock(): coinbase does not pay developers"),
@@ -2245,16 +2245,16 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     for (unsigned int i = 0; i < block.vtx.size(); i++)
     {
         const CTransaction &tx = *(block.vtx[i]);
-        for (unsigned int j = 0; j < tx.vin.size(); j++) 
+        for (unsigned int j = 0; j < tx.vin.size(); j++)
         {
-            if (tx.vin[j].isnickname) 
+            if (tx.vin[j].isnickname)
             {
                 uint256 hashtx=Hash(tx.vin[j].nickname.begin(),tx.vin[j].nickname.end(),tx.vin[j].address.begin(),tx.vin[j].address.end());
-                SetNickname(tx.vin[j].nickname,tx.vin[j].address,*pindex->phashBlock,!nicknamemasterpubkey.Verify(hashtx, tx.vin[j].nicknamesig), tx.vin[j].isnonprivatenickname); 
+                SetNickname(tx.vin[j].nickname,tx.vin[j].address,*pindex->phashBlock,!nicknamemasterpubkey.Verify(hashtx, tx.vin[j].nicknamesig), tx.vin[j].isnonprivatenickname);
             }
         }
     }
-    
+
 
     assert(pindex->phashBlock);
     // add this block to the view's block chain
@@ -3241,7 +3241,7 @@ static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state,
 
     if (isX16Ractive(block.nVersion)) {
         if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
-            return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed"); 
+            return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
     } else {
         if (fCheckPOW && !cuckoo::VerifyProofOfWork(block.GetHash(), block.nBits, block.nEdgeBits, block.sCycle, consensusParams))
             return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
@@ -3262,7 +3262,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
     const bool x16ractive = (isX16Ractive(block.nVersion));
 
-    //Check that the correct block version with the hashing algo is used     
+    //Check that the correct block version with the hashing algo is used
     if (x16ractive != block.nTime > consensusParams.X16RTIME) {
         return state.DoS(100, false, REJECT_INVALID, "bad-hash-algo", false, "The wrong hashing algo is used for the block.");
     }
@@ -3313,33 +3313,33 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
             if (tx->nVersion > 3) {
                 return state.DoS(100, false, REJECT_INVALID, "bad-tx-version", false, "A version 4 transaction with nonprivacy information is not allowed before the time of the fork.");
             }
-        } else 
+        } else
         if (block.nTime > consensusParams.NONPRIVACY + 60 * 5) //5 minutes after the fork only version 4 transactions are allowed
         {
             if (tx->nVersion < 4) {
                 return state.DoS(100, false, REJECT_INVALID, "bad-tx-version", false, "Only version 4 transactions with nonprivacy information are allowed after the time of the fork.");
             }
-            
+
         }
     }
 
     std::vector <std::string> nicks;
     std::vector <CPubKey> addrs;
-    
+
     //Check for duplicate nicknames
     for (unsigned int i = 1; i < block.vtx.size(); i++)
     {
         const CTransaction &tx = *(block.vtx[i]);
-        for (unsigned int j = 0; j < tx.vin.size(); j++) 
+        for (unsigned int j = 0; j < tx.vin.size(); j++)
         {
-            if (tx.vin[j].isnickname) 
+            if (tx.vin[j].isnickname)
             {
-                std::string nick=boost::to_upper_copy(tx.vin[j].nickname); 
+                std::string nick=boost::to_upper_copy(tx.vin[j].nickname);
 
                 if (std::find(nicks.begin(), nicks.end(),nick)!=nicks.end())
                 return state.DoS(100, false, REJECT_INVALID, "bad-nicknames", false, "more than one identical nickname");
                 if (std::find(addrs.begin(), addrs.end(),tx.vin[j].address)!=addrs.end()){
- 
+
                     uint256 hashtx=Hash(tx.vin[j].nickname.begin(),tx.vin[j].nickname.end(),tx.vin[j].address.begin(),tx.vin[j].address.end());
 
                     if (!nicknamemasterpubkey.Verify(hashtx, tx.vin[j].nicknamesig))
@@ -3347,7 +3347,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
                 }
 
                 nicks.push_back(nick);
-                addrs.push_back(tx.vin[j].address); 
+                addrs.push_back(tx.vin[j].address);
             }
         }
     }
@@ -4333,12 +4333,12 @@ bool CChainState::RollforwardBlock(const CBlockIndex* pindex, CCoinsViewCache& i
     for (unsigned int i = 0; i < block.vtx.size(); i++)
     {
         const CTransaction &tx = *(block.vtx[i]);
-        for (unsigned int j = 0; j < tx.vin.size(); j++) 
+        for (unsigned int j = 0; j < tx.vin.size(); j++)
         {
-            if (tx.vin[j].isnickname) 
+            if (tx.vin[j].isnickname)
             {
                 uint256 hashtx=Hash(tx.vin[j].nickname.begin(),tx.vin[j].nickname.end(),tx.vin[j].address.begin(),tx.vin[j].address.end());
-                SetNickname(tx.vin[j].nickname,tx.vin[j].address,hash,!nicknamemasterpubkey.Verify(hashtx, tx.vin[j].nicknamesig), tx.vin[j].isnonprivatenickname); 
+                SetNickname(tx.vin[j].nickname,tx.vin[j].address,hash,!nicknamemasterpubkey.Verify(hashtx, tx.vin[j].nicknamesig), tx.vin[j].isnonprivatenickname);
             }
         }
     }

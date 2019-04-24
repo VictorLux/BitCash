@@ -86,8 +86,8 @@ public:
 //        consensus.BIP16Exception = uint256S("0x00000000000002dc756eebf4f49723ed8d30cc28a5f108eb94b1ba88ac4f9c22");
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256();
-        consensus.BIP65Height = 1; 
-        consensus.BIP66Height = 1; 
+        consensus.BIP65Height = 1;
+        consensus.BIP66Height = 1;
 //        consensus.sEdgeBitsAllowed = {16,17,18,19,20,21,22,23,24,25,26, 27, 28, 29, 30, 31};
         consensus.sEdgeBitsAllowed = {27};
         consensus.powLimit = Consensus::PoWLimit{
@@ -114,7 +114,7 @@ public:
         consensus.X16RTIME = 1550923200;//Time of X16R fork
         consensus.NONPRIVACY = 1552176000;//Time of nonprivacy
 
-        // The best chain should have at least this much work.                                                
+        // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");
 
         // By default assume that the signatures in ancestors of this block are valid.
@@ -125,11 +125,11 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xf8;
-        pchMessageStart[1] = 0xc2;
-        pchMessageStart[2] = 0xb4;
-        pchMessageStart[3] = 0xe3;
-        nDefaultPort = 5723;
+        pchMessageStart[0] = 0xcf;
+        pchMessageStart[1] = 0xde;
+        pchMessageStart[2] = 0x80;
+        pchMessageStart[3] = 0xaa;
+        nDefaultPort = 6723;
         nPruneAfterHeight = 100000;
 
 //        genesis = CreateGenesisBlock(1526220501, 2083236893, 0x1f00ffff, 1, 50 * COIN);
@@ -217,7 +217,7 @@ copy merkle root
         std::cout << "Genesis Block Nonce: 0x" << genesis.nNonce << std::endl;
         std::cout << std::endl<< "bitcash new hashGenesisBlock hash: " << genesis.GetHash().ToString() << std::endl;
 */
-                                                         
+
         assert(consensus.hashGenesisBlock == uint256S("0x7d57d87ff3c15a521530af60edee1887fba9c193eb518face926785c4cd8f4f1"));
         assert(genesis.hashMerkleRoot == uint256S("0xaac1dca23e43e68fe32133292a4698f42f60a48e5321bef9bda0c95f3580b667"));
 
@@ -227,8 +227,8 @@ copy merkle root
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-        vSeeds.emplace_back("dnsseed.choosebitcash.com");
-        vSeeds.emplace_back("dnsseed2.choosebitcash.com");  
+        //vSeeds.emplace_back("138.68.104.225");
+        //vSeeds.emplace_back("dnsseed2.choosebitcash.com");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,230);//new BitCash address format
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,235);
@@ -250,22 +250,22 @@ copy merkle root
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
 
-        checkpointData = {
-            {
-                { 0, uint256S("0x7d57d87ff3c15a521530af60edee1887fba9c193eb518face926785c4cd8f4f1")},
-                { 5000, uint256S("0x3220c952ad933f932c74c8a9ac1a90c2c67544f2884ffe2cb501b3d3bbafb1cc")},
-                { 10000, uint256S("0x2c2e1fda318f953d4490d43045eb5027c46ee263efd32af10b129b3849533766")},
-                { 20000, uint256S("0x7f6c97894c2b98c963fa879a546047545e213b56e95766f9ba06e7fdc50461bb")},
-                { 30000, uint256S("0x3ca6f893ba77f94bcd7880828c80e25d8acae947091a8c703d4bbc888652a763")},
-                { 40000, uint256S("0x1509b6323cf48a74838ee3f7b2cca7e02f5c44ef78fe9e9b2133eeb94f92a26a")},
-        		{ 70000, uint256S("0xd7b3f34e0a7c5cf1b781dd8ce38f146a40bf58074fa7f0977137ac5397b215b4")},
-		        { 100000, uint256S("0x4dcc1d2efb17b25b57d1d9430751b809338c68db9164fb09f221daf8e1ca26ce")},
-                { 130000, uint256S("0xc00a7ab6ca796be8757246a353436031908943b1108dac52879e0506b09c3be0")},
-                { 200000, uint256S("0x5cf251696d27e34b8b818b00b5613d2ca662677f924423872b58e88fafdd8b29")},
-                { 250000, uint256S("0xa883a07a7dbae7286fc664edfe488c433325003efcdfd803f09e6a30021dd449")},
-                { 300000, uint256S("0x6fc9ac59a21b8722df1bd650c05cff490d8e2d39814b1ea0bc9bc4892f3e99c8")},
-            }
-        };
+        checkpointData = {};
+            //{
+              //  { 0, uint256S("0x7d57d87ff3c15a521530af60edee1887fba9c193eb518face926785c4cd8f4f1")},
+          //      { 5000, uint256S("0x3220c952ad933f932c74c8a9ac1a90c2c67544f2884ffe2cb501b3d3bbafb1cc")},
+          //      { 10000, uint256S("0x2c2e1fda318f953d4490d43045eb5027c46ee263efd32af10b129b3849533766")},
+          //      { 20000, uint256S("0x7f6c97894c2b98c963fa879a546047545e213b56e95766f9ba06e7fdc50461bb")},
+          //      { 30000, uint256S("0x3ca6f893ba77f94bcd7880828c80e25d8acae947091a8c703d4bbc888652a763")},
+          //      { 40000, uint256S("0x1509b6323cf48a74838ee3f7b2cca7e02f5c44ef78fe9e9b2133eeb94f92a26a")},
+        	//	{ 70000, uint256S("0xd7b3f34e0a7c5cf1b781dd8ce38f146a40bf58074fa7f0977137ac5397b215b4")},
+		      //  { 100000, uint256S("0x4dcc1d2efb17b25b57d1d9430751b809338c68db9164fb09f221daf8e1ca26ce")},
+          //      { 130000, uint256S("0xc00a7ab6ca796be8757246a353436031908943b1108dac52879e0506b09c3be0")},
+          //      { 200000, uint256S("0x5cf251696d27e34b8b818b00b5613d2ca662677f924423872b58e88fafdd8b29")},
+          //      { 250000, uint256S("0xa883a07a7dbae7286fc664edfe488c433325003efcdfd803f09e6a30021dd449")},
+          //      { 300000, uint256S("0x6fc9ac59a21b8722df1bd650c05cff490d8e2d39814b1ea0bc9bc4892f3e99c8")},
+          //  }
+        //};
 
         chainTxData = ChainTxData{
             // Data as of block 0000000000000000002d6cca6761c99b3c2e936f9a0e304b7c7651a993f461de (height 506081).
@@ -291,8 +291,8 @@ public:
 //        consensus.BIP16Exception = uint256S("0x00000000dd30457c001f4095d208cc1296b0eed002427aa599874af7a432b105");
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256();
-        consensus.BIP65Height = 1; 
-        consensus.BIP66Height = 1; 
+        consensus.BIP65Height = 1;
+        consensus.BIP66Height = 1;
         consensus.sEdgeBitsAllowed = {16,17,18,19,20, 21, 22, 23, 24, 25, 26};
         consensus.powLimit = Consensus::PoWLimit{
 /*1f0bc3d9
@@ -301,15 +301,15 @@ public:
 20013da8
 2003b8fa
                       000b
-                        23 
+                        23
                         69
                       01
                       03*/
             uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"),
             *consensus.sEdgeBitsAllowed.begin()};
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // one for nBits adjustment
+        consensus.nPowTargetTimespan = 12 * 60 * 60; // one for nBits adjustment
         consensus.nEdgeBitsTargetThreshold = 4;      // adjust nEdgeBits if block time is twice more/less than expected
-        consensus.nPowTargetSpacing = 1;//1 * 60;
+        consensus.nPowTargetSpacing = 0.5;//1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
@@ -384,7 +384,7 @@ public:
 
 //    return cycleStr.str();
         std::cout << std::endl << "Genesis Block Nonce: 0x" << genesis.nNonce << std::endl;
-if         (genesis.nEdgeBits==16) 
+if         (genesis.nEdgeBits==16)
         std::cout << "EdgeBits 16 " << std::endl;else
         std::cout << "EdgeBits NOT 16 " << std::endl;
         genesis.sCycle = cycle;
@@ -419,7 +419,7 @@ if (cuckoo::VerifyProofOfWork(genesis.GetHash(), genesis.nBits, genesis.nEdgeBit
         vFixedSeeds.clear();
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("testnet-seed.choosebitcash.com"); 
+        //vSeeds.emplace_back("testnet-seed.choosebitcash.com");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -472,8 +472,8 @@ public:
 //        consensus.BIP16Exception = uint256();
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256();
-        consensus.BIP65Height = 1; 
-        consensus.BIP66Height = 1; 
+        consensus.BIP65Height = 1;
+        consensus.BIP66Height = 1;
         consensus.powLimit = Consensus::PoWLimit{
             uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"),
             *consensus.sEdgeBitsAllowed.begin()};
