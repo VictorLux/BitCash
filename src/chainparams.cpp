@@ -138,11 +138,11 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"));
         assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));*/
 
-        genesis = CreateGenesisBlock(1531846964, 0x2e, 0x207fffff, 27, 1, 21500 * MILLICOIN);
+  //CC      genesis = CreateGenesisBlock(1531846964, 0x2e, 0x207fffff, 27, 1, 21500 * MILLICOIN);
 
 
 // ******* BEGIN GENERATE GENESIS BLOCK ********
-/*
+
         genesis.nNonce=0;
         bool cycle_found = false;
         std::set<uint32_t> cycle;
@@ -193,7 +193,7 @@ if (cuckoo::VerifyProofOfWork(genesis.GetHash(), genesis.nBits, genesis.nEdgeBit
         std::cout << "Not verfified" << std::endl;
         std::cout << "bitcash new hashMerkleRoot hash: " << genesis.hashMerkleRoot.ToString() << std::endl;
         std::cout << std::endl<< "bitcash new hashGenesisBlock hash: " << genesis.GetHash().ToString() << std::endl;
-*/
+
 // ****** END GENERATE GENESIS BLOCK *******
 /*
 copy cycles
